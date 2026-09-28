@@ -164,9 +164,13 @@ class SqlStore:
                 select(User.id).where(User.telegram_id == telegram_id)
             )
             if user_id is None:
-                session.add(
-                    User(telegram_id=telegram_id, dest=dest, status=STATUS_ACTIVE)
-                )
+                try:
+                    session.add(
+                        User(telegram_id=telegram_id, dest=dest, status=STATUS_ACTIVE)
+                    )
+                    await session.flush()
+                except IntegrityError:
+                    pass  # race condition: user created concurrently
 
     async def get_user_dest(self, telegram_id: int) -> str | None:
         async with self._sf() as session:
