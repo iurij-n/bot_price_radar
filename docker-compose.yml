@@ -1,0 +1,22 @@
+services:
+  app:
+    build: .
+    env_file: .env
+    volumes:
+      - ./data:/app/data
+    stop_grace_period: 10s
+    restart: unless-stopped
+
+  # Бэкап БД раз в сутки (тикет 11). Контейнер-цикл: backup_db.py → sleep 86400.
+  # Альтернатива — cron на хосте (тогда здесь достаточно `entrypoint: ["true"]`
+  # и `restart: "no"`, а на хосте: `0 3 * * * docker compose -f /path/docker-compose.yml
+  # run --rm backup`). Каталог ./backups на хосте должен быть доступен на запись
+  # пользователю app из контейнера (например, `mkdir -p backups && chmod 777 backups`).
+  backup:
+    build: .
+    volumes:
+      - ./data:/app/data
+      - ./backups:/app/backups
+    entrypoint: ["/bin/sh", "-c"]
+    command: ["while true; do python scripts/backup_db.py || echo 'backup failed' >&2; sleep 86400; done"]
+    restart: unless-stopped

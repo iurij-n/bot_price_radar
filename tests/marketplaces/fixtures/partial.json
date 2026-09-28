@@ -1,0 +1,35 @@
+{
+  "products": [
+    {
+      "id": 123456789,
+      "name": "Носки женские, 3 пары",
+      "coverImage": "/images/big/123456789.jpg",
+      "totalQuantity": 9,
+      "sizes": [
+        {
+          "wh": [450360225],
+          "dist": 109,
+          "price": {
+            "basic": 8662900,
+            "product": 6167900,
+            "total": 6167900,
+            "logistics": 0,
+            "return": 0,
+            "cashback": 0
+          }
+        }
+      ]
+    },
+    {
+      "id": 223456789,
+      "name": "Кружка керамическая 350мл",
+      "totalQuantity": 0,
+      "sizes": [
+        {
+          "wh": [450360225],
+          "dist": 109
+        }
+      ]
+    }
+  ]
+}

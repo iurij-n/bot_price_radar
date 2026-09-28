@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "price-radar"
+version = "0.1.0"
+description = "Telegram-бот отслеживания финальных цен маркетплейсов (первый — Wildberries)"
+requires-python = ">=3.12"
+dependencies = [
+    "aiogram>=3",
+    "sqlalchemy[asyncio]>=2",
+    "aiosqlite",
+    "httpx",
+    "curl_cffi>=0.16",
+    "pydantic-settings",
+    "greenlet",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-asyncio",
+    "aiosqlite",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+# pytest-asyncio: режим auto — все async-тесты собираются без явных маркеров
+testpaths = ["tests"]
+asyncio_mode = "auto"
