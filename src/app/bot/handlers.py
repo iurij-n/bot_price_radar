@@ -93,7 +93,8 @@ async def handle_new_product(message: Message, deps: BotDeps) -> None:
     dest = await deps.store.get_user_dest(telegram_id) or deps.default_dest
     try:
         batch = await deps.client.fetch_cards_batch([parse.nm_id], dest)
-    except MarketplaceError:
+    except MarketplaceError as e:
+        logger.error("MarketplaceError fetching nm=%s dest=%s: %s", parse.nm_id, dest, e)
         await deliver(deps, chat_id, messages.WB_ERROR_TEXT)
         return
 
